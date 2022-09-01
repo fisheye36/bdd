@@ -2,7 +2,10 @@
 
 all: build run  ## Build and run the container in one go
 
-build:  ## Build the container
+prepare-env-file:  ## Prepare local .env file with secrets based on the template
+	@bin/prepare-env-file.sh
+
+build: prepare-env-file  ## Build the container
 	docker build -t bdd .
 
 run:  ## Run the container

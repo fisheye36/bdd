@@ -7,6 +7,8 @@ from behave.runner import Context
 from config import settings
 from schemas.public_api import ServerTimeResponseSchema, TradingPairResponseSchema
 
+SECONDS_IN_MINUTE = 60
+
 
 @given('the user knows the API endpoint to get the server time')
 def step_impl(context: Context) -> None:
@@ -28,7 +30,7 @@ def step_impl(context: Context) -> None:
 def step_impl(context: Context) -> None:
     server_timestamp = context.validated_response.result.unixtime
     local_timestamp = datetime.datetime.utcnow().timestamp()
-    assert abs(server_timestamp - local_timestamp) < 5
+    assert abs(server_timestamp - local_timestamp) < SECONDS_IN_MINUTE
 
 
 @given('the user knows the API endpoint to get the trading pair')

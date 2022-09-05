@@ -8,11 +8,12 @@ prepare-env-file:  ## Prepare local .env file with secrets based on the template
 build: prepare-env-file  ## Build the container
 	docker build -t bdd .
 
-run:  ## Run the container
-	docker run -t bdd
+run:  ## Run the container, providing new OTP beforehand
+	@bin/update-otp.sh
+	docker run -t -v "$$PWD/bdd/.env:/app/.env" bdd
 
 enter:  ## Enter the container, directly into /app directory
-	docker run -it bdd /bin/bash
+	docker run -it -v "$$PWD/bdd/.env:/app/.env" bdd /bin/bash
 
 status:  ## Show status of running containers
 	docker ps

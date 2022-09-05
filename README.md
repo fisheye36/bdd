@@ -3,6 +3,10 @@
 Behavior-driven development example using Python and BDD framework
 [behave](https://behave.readthedocs.io/en/stable/index.html).
 
+# tl;dr
+
+Clone the repo and run `make all`. Everything is automated as much as it could be.
+
 # Requirements
 
 Since the entire app is dockerized, you only need to have:

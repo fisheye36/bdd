@@ -4,6 +4,7 @@ from behave.runner import Context
 
 import auth
 from config import settings
+from helpers import build_post_headers, get_uri_from_endpoint
 from schemas.private_api import ErrorResponseSchema, OpenOrdersResponseSchema
 
 
@@ -18,16 +19,7 @@ def step_impl(context: Context) -> None:
         'nonce': auth.generate_nonce(),
         'otp': settings.auth.otp,
     }
-
-    headers = {
-        'API-Key': settings.auth.api_key,
-        'API-Sign': auth.generate_api_key_signature(
-            uri=context.endpoint.removeprefix(settings.base_url),
-            data=form_data,
-            secret=settings.auth.api_secret,
-        ),
-        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-    }
+    headers = build_post_headers(uri=get_uri_from_endpoint(context.endpoint), form_data=form_data)
 
     context.response = requests.post(context.endpoint, data=form_data, headers=headers)
 
@@ -44,16 +36,7 @@ def step_impl(context: Context) -> None:
         'nonce': auth.generate_nonce(),
         'otp': 1337,
     }
-
-    headers = {
-        'API-Key': settings.auth.api_key,
-        'API-Sign': auth.generate_api_key_signature(
-            uri=context.endpoint.removeprefix(settings.base_url),
-            data=form_data,
-            secret=settings.auth.api_secret,
-        ),
-        'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-    }
+    headers = build_post_headers(uri=get_uri_from_endpoint(context.endpoint), form_data=form_data)
 
     context.response = requests.post(context.endpoint, data=form_data, headers=headers)
 
